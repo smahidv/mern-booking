@@ -34,7 +34,7 @@ const List = () => {
           <div className="listSearch">
             <div className="lsItem">
               <label>Destination</label>
-              <input placeholder={destination} type="text" />
+              <input placeholder={destination} type="text" disabled/>
             </div>
             <div className="lsItem">
               <label>Check-in Date</label>

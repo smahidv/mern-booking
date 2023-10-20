@@ -46,3 +46,10 @@
 .fpRating>span{
   font-size: 14px;
 }
+@media (max-width:800px) {
+  .fp{
+    flex-direction: column;
+    padding: 1em 5vw;
+    gap: 2em;
+  }
+}

@@ -1,8 +1,8 @@
+import * as React from "react";
 import {
   faBed,
   faCalendarDays,
   faPerson,
-
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./header.css";
@@ -13,10 +13,22 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
-import { AuthContext } from "../../context/AuthContext";
+import useFetch from "../../hooks/useFetch";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+
+// import {AuthContext} from "../../context/AuthContext";
 
 const Header = ({ type }) => {
+  const { data, loading, error } = useFetch(`/hotels/cities`);
   const [destination, setDestination] = useState("");
+  const handleChange = (event) => {
+    setDestination(event.target.value);
+  };
+
   const [openDate, setOpenDate] = useState(false);
   const [dates, setDates] = useState([
     {
@@ -33,8 +45,7 @@ const Header = ({ type }) => {
   });
 
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
-
+  // const { user } = useContext(AuthContext);
 
   const handleOption = (name, operation) => {
     setOptions((prev) => {
@@ -59,19 +70,32 @@ const Header = ({ type }) => {
           type === "list" ? "headerContainer listMode" : "headerContainer"
         }
       >
-        
         {type !== "list" && (
           <>
-            {!user && <button className="headerBtn">Sign in / Register</button>}
+            {/* {!user && <button className="headerBtn">Sign in / Register</button>} */}
             <div className="headerSearch">
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faBed} className="headerIcon" />
-                <input
-                  type="text"
-                  placeholder="Where are you going?"
-                  className="headerSearchInput"
-                  onChange={(e) => setDestination(e.target.value)}
-                />
+                <Box className="sc-box">
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">City</InputLabel>
+
+                    <Select
+                      className="sc-select"
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={destination}
+                      label="Age"
+                      onChange={handleChange}
+                    >
+                      {data.map((city, index) => (
+                        <MenuItem value={city} key={index}>
+                          {city}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
               </div>
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faCalendarDays} className="headerIcon" />

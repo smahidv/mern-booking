@@ -39,6 +39,17 @@ export const getHotel = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getCities =async (req, res, next) => {
+  try {
+    const cities = await Hotel.distinct('city');
+    res.json(cities);
+    console.log(cities)
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getHotels = async (req, res, next) => {
   const { min, max, ...others } = req.query;
   try {
@@ -57,9 +68,12 @@ export const countByCity = async (req, res, next) => {
     const list = await Promise.all(
       cities.map((city) => {
         return Hotel.countDocuments({ city: city });
+        
       })
+      
     );
     res.status(200).json(list);
+    console.log(list);
   } catch (err) {
     next(err);
   }

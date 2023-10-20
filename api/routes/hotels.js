@@ -8,8 +8,8 @@ import {
   getHotelRooms,
   getHotels,
   updateHotel,
+  getCities,
 } from "../controllers/hotel.js";
-import Hotel from "../models/Hotel.js";
 import {verifyAdmin} from "../utils/verifyToken.js"
 const router = express.Router();
 
@@ -21,7 +21,7 @@ router.put("/:id", verifyAdmin, updateHotel);
 //DELETE
 router.delete("/:id", verifyAdmin, deleteHotel);
 //GET
-
+router.get("/cities", getCities);
 router.get("/find/:id", getHotel);
 //GET ALL
 

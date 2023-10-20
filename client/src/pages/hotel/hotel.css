@@ -3,6 +3,8 @@
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+  padding-inline: 5vw;
+
 }
 
 .hotelWrapper {
@@ -15,12 +17,9 @@
 }
 
 .bookNow {
-  position: absolute;
-  top: 10px;
-  right: 0;
   border: none;
   padding: 10px 20px;
-  background-color: #0071c2;
+  background-color:#008009;
   color: white;
   font-weight: bold;
   border-radius: 5px;
@@ -49,19 +48,19 @@
 }
 
 .hotelImages {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+ gap: 3em;
 }
 
 .hotelImgWrapper {
-  width: 33%;
+  width: 100%;
 }
 
 .hotelImg {
   width: 100%;
   object-fit: cover;
-  cursor: pointer;
+  margin-top: 30px;
 }
 
 .hotelDetails {
@@ -102,7 +101,7 @@
 .hotelDetailsPrice > button {
   border: none;
   padding: 10px 20px;
-  background-color: #0071c2;
+  background-color: #008009;
   color: white;
   font-weight: bold;
   cursor: pointer;
@@ -113,12 +112,12 @@
   position: sticky;
   top: 0;
   left: 0;
-  width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.613);
+  box-shadow: 0 0 0 9999px #000000b0;
   z-index: 999;
   display: flex;
   align-items: center;
+
 }
 
 .sliderWrapper{
@@ -129,9 +128,12 @@
   align-items: center;
 }
 
-.sliderImg{
-  width: 80%;
-  height: 80vh;
+
+img.sliderImg{
+  width: 300px;
+  height: 300px ;
+ max-height: 100vh;
+ 
 }
 
 .close{
@@ -148,4 +150,11 @@
   font-size: 50px;
   color: lightgray;
   cursor: pointer;
+}
+@media (max-width:600px){
+  .hotelImages,
+  .hotelDetails
+  {
+    display: block;
+  }
 }

@@ -8,7 +8,7 @@ import {
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
-import { useContext, useState } from "react";
+import { useContext, useState,useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
@@ -25,7 +25,8 @@ const Hotel = () => {
   const { data, loading, error } = useFetch(`/hotels/find/${id}`);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-
+ 
+ 
   const { dates, options } = useContext(SearchContext);
 
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -35,31 +36,40 @@ const Hotel = () => {
     return diffDays;
   }
 
-  const days = dayDifference(dates[0].endDate, dates[0].startDate);
+  const days = dates[0] ? dayDifference(dates[0].endDate, dates[0].startDate) : 0;
+
+  console.log(dates);
+  console.log(dates[0]);
 
   const handleOpen = (i) => {
     setSlideNumber(i);
     setOpen(true);
+    document.body.style.overflowY = "hidden";
+    document.body.style.height = "100vh";
   };
+
+  useEffect(() => {
+    if (!open) {
+      document.body.style.overflowY = "auto"; 
+      document.body.style.height = "auto"; 
+    }
+  }, [open]);
 
   const handleMove = (direction) => {
     let newSlideNumber;
-
+  
     if (direction === "l") {
-      newSlideNumber = slideNumber === 0 ? 5 : slideNumber - 1;
+      newSlideNumber = (slideNumber - 1 + data.photos.length) % data.photos.length;
     } else {
-      newSlideNumber = slideNumber === 5 ? 0 : slideNumber + 1;
+      newSlideNumber = (slideNumber + 1) % data.photos.length;
     }
-
+  
     setSlideNumber(newSlideNumber);
   };
+  
 
   const handleClick = () => {
-    if (user) {
       setOpenModal(true);
-    } else {
-      navigate("/login");
-    }
   };
   return (
     <div>
@@ -127,14 +137,15 @@ const Hotel = () => {
                 <p className="hotelDesc">{data.desc}</p>
               </div>
               <div className="hotelDetailsPrice">
-                <h1>Perfect for a {days}-night stay!</h1>
+                {/* <h1>Perfect for a {days}-night stay!</h1> */}
                 <span>
                   Located in the real heart of Krakow, this property has an
                   excellent location score of 9.8!
                 </span>
                 <h2>
-                  <b>${days * data.cheapestPrice * options.room}</b> ({days}{" "}
-                  nights)
+                  <b>{ data.cheapestPrice } Dhs</b>
+                   {/* ({days}{" "}
+                  nights) */}
                 </h2>
                 <button onClick={handleClick}>Reserve or Book Now!</button>
               </div>
